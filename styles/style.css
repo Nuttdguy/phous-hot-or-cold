@@ -73,8 +73,12 @@ nav ul li:last-child {
 	float: right;
 }
 
-nav a {
+nav a:hover {
+	color: #cc324b;
+	transition: color .65s;
+}
 
+nav a {
 	color: #fff;
 }
 
@@ -85,6 +89,7 @@ h1 {
 	color: #fff;
 
 }
+
 
 /*style for hidden modal*/
 .overlay {
