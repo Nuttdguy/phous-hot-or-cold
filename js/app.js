@@ -39,9 +39,7 @@ function currentGuess() {  // Invokes on click of guess button
 		$('#guessList').append('<li>' + guess + '</li>');
 		$('#userGuess').val('');
 		
-		didUserGuess(guess);
-		isGuessNumeric(guess); // passes guess, validates user input and increments/decrements counter
-		howClose(guess); // passes value to howClose function
+		didUserGuess(guess); // will probably need to move these other functions below
 
 	})
 	
@@ -49,18 +47,28 @@ function currentGuess() {  // Invokes on click of guess button
 
 var didUserGuess = function(guessedNumbers) {
 	
-	alreadyGuessed.push(guessedNumbers);
+	alreadyGuessed.push(guessedNumbers); //
 	
 	for(i = 0; i < alreadyGuessed.length; i++) {
-		var checkGuessDuplicate = alreadyGuessed[i];
+		if (guessedNumbers === alreadyGuessed[i-1] || !$.isNumeric(guessedNumbers)) { // checking last item in array for each index of the current array
+			alreadyGuessed.pop(); // removing last index of array if above true
+			$('#feedback').text('You already guessed that number'); // updates feedback message
+			if ($('#guessList li').length > alreadyGuessed.length) { // checks length of current guesses equal to array length
+				$('#guessList li').last().remove(); // removes last item of guess list
+			}
+			return; // ends loop
+		}
+		
+		console.log(alreadyGuessed);
 	}
 	
-	console.log(alreadyGuessed);
+	isGuessNumeric(guessedNumbers); // passes guess, validates user input and increments/decrements counter
+	howClose(guessedNumbers); // passes value to howClose function
 }
 
 var isGuessNumeric = function(num) {
 	
-	if (!$.isNumeric(num)) { // Check if user guesss is a number
+	if (!$.isNumeric(num) || num > 101) { // Check if user guesss is a number
 		$('#userGuess').val('');  // resets the input box value
 		$('#guessList li').last().remove(); // removes the link last generated
 		return;
@@ -69,7 +77,6 @@ var isGuessNumeric = function(num) {
 		count++; // increments the global count variable
 		$('#count').text(count); // updates the count text
 }
-
 
 var howClose = function(userGuess) {
 	
