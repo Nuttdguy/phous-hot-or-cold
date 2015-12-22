@@ -49,10 +49,16 @@ var didUserGuess = function(guessedNumbers) {
 	
 	alreadyGuessed.push(guessedNumbers); //
 	
+//	var array = [2,3,4,5,6,7]
+//	if(guessedNumbers in array) {
+//		console.log(true);
+//	}
+	
+	
 	for(i = 0; i < alreadyGuessed.length; i++) {
-		if (guessedNumbers === alreadyGuessed[i-1] || !$.isNumeric(guessedNumbers)) { // checking last item in array for each index of the current array
+		if (guessedNumbers === alreadyGuessed[i-1] || !$.isNumeric(guessedNumbers) || guessedNumbers > 101) { // checking last item in array for each index of the current array
 			alreadyGuessed.pop(); // removing last index of array if above true
-			$('#feedback').text('You already guessed that number'); // updates feedback message
+			$('#feedback').text('You guessed that number or it needs to be less than 100'); // updates feedback message
 			if ($('#guessList li').length > alreadyGuessed.length) { // checks length of current guesses equal to array length
 				$('#guessList li').last().remove(); // removes last item of guess list
 			}
@@ -60,6 +66,7 @@ var didUserGuess = function(guessedNumbers) {
 		}
 		
 		console.log(alreadyGuessed);
+		
 	}
 	
 	isGuessNumeric(guessedNumbers); // passes guess, validates user input and increments/decrements counter
@@ -71,6 +78,7 @@ var isGuessNumeric = function(num) {
 	if (!$.isNumeric(num) || num > 101) { // Check if user guesss is a number
 		$('#userGuess').val('');  // resets the input box value
 		$('#guessList li').last().remove(); // removes the link last generated
+		$('#feedback').text('You need to guess a number'); 
 		return;
 	} 
 		
